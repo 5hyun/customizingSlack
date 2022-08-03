@@ -1,7 +1,18 @@
 import React from 'react';
+import { Redirect, Route, Switch } from 'react-router';
+import loadable from '@loadable/component';
+
+const SignUp = loadable(() => import('@pages/SignUp'));
 
 const App = () => {
-  return <div>초기 세팅</div>;
+  return (
+    <Switch>
+      <Route exact path="/">
+        <Redirect to="signup" />
+      </Route>
+      <Route path="/signup" component={SignUp} />
+    </Switch>
+  );
 };
 
 export default App;
