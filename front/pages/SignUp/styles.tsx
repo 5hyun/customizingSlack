@@ -65,6 +65,10 @@ export const LinkContainer = styled.div`
   & > span {
     opacity: 0.5;
   }
+  & > a {
+    text-decoration: none;
+    color: #1263A3;
+  }
 `;
 
 export const Error = styled.span`
