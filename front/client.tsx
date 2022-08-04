@@ -5,7 +5,7 @@ import { render } from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import axios from 'axios';
 
-import App from './layouts/App';
+import App from '@layouts/App/App';
 import SWRDevtools from '@jjordy/swr-devtools';
 
 axios.defaults.withCredentials = true;
