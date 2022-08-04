@@ -4,6 +4,7 @@ import useInput from '@hooks/useInput';
 import fetcher from '@utils/fetcher';
 import useSWR from 'swr';
 import axios from 'axios';
+import { Redirect } from 'react-router';
 
 const SignUp = () => {
   const { data } = useSWR('/api/users', fetcher);
@@ -61,6 +62,14 @@ const SignUp = () => {
     [password, setPasswordCheck],
   );
 
+  if (data === undefined) {
+    return <div>로딩중...</div>;
+  }
+
+  if (data) {
+    return <Redirect to="workspace" />;
+  }
+
   return (
     <div>
       <Header>Oleact</Header>
@@ -86,7 +95,7 @@ const SignUp = () => {
         {success && <Success>회원가입에 성공했습니다.</Success>}
         <button type="submit">회원가입</button>
         <LinkContainer>
-          <span>이미 회원이신가요&#63;</span> <a href="#">로그인 하러가기</a>
+          <span>이미 회원이신가요&#63;</span> <a href="/login">로그인 하러가기</a>
         </LinkContainer>
       </Form>
     </div>
