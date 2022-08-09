@@ -10,9 +10,6 @@ export const Header = styled.header`
   justify-content: flex-end;
   align-items: center;
 
-  position: relative;
-  z-index: 2;
-
   & > button {
     margin-right: 13px;
     border: none;
@@ -23,6 +20,7 @@ export const Header = styled.header`
 export const ProfileModal = styled.div`
   position: absolute;
   top: 38px;
+  right: 0;
   box-shadow: 3px 3px 10px black;
 
   width: 360px;
@@ -49,10 +47,10 @@ export const ProfileModal = styled.div`
     flex-direction: column;
     margin-left: 8px;
 
-    & > span:first-child {
+    .user-info__left-detail__nickname {
       font-size: 18px;
     }
-    & > span:last-child {
+    .user-info__left-detail__active {
       font-size: 15px;
       opacity: 0.7;
     }

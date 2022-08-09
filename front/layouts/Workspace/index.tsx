@@ -5,6 +5,7 @@ import { Redirect } from 'react-router';
 import gravatar from 'gravatar';
 import { ChannelSelctor, Content, Header, Message, ProfileModal, WorkspaceSelctor } from '@layouts/Workspace/styles';
 import axios from 'axios';
+import Menu from '@components/Menu';
 
 const Workspace = () => {
   const { data: userData, mutate } = useSWR('/api/users', fetcher);
@@ -13,6 +14,11 @@ const Workspace = () => {
 
   const onClickUserProfile = useCallback(() => {
     setShowUserMenu((prev) => !prev);
+  }, []);
+
+  const onCloseUserProfile = useCallback((e: any) => {
+    e.stopPropagation();
+    setShowUserMenu(false);
   }, []);
 
   const onLogout = useCallback(() => {
@@ -36,24 +42,26 @@ const Workspace = () => {
           <img src={gravatar.url(userData.email, { s: '30px', d: 'retro' })} alt={userData.email} />
         </button>
         {showUserMenu && (
-          <ProfileModal>
-            <div className="user-info">
-              <div className="user-info__left">
-                <img src={gravatar.url(userData.email, { s: '40px', d: 'retro' })} alt={userData.email} />
-                <div className="user-info__left-detail">
-                  <span>{userData.nickname}</span>
-                  <span>Active</span>
+          <Menu show={showUserMenu} onCloseModal={onCloseUserProfile}>
+            <ProfileModal>
+              <div className="user-info">
+                <div className="user-info__left">
+                  <img src={gravatar.url(userData.email, { s: '40px', d: 'retro' })} alt={userData.email} />
+                  <div className="user-info__left-detail">
+                    <span className="user-info__left-detail__nickname">{userData.nickname}</span>
+                    <span className="user-info__left-detail__active">Active</span>
+                  </div>
                 </div>
+                <label className="user-info__right">
+                  <button onClick={onClickUserProfile}>X</button>
+                </label>
               </div>
-              <label className="user-info__right">
-                <button onClick={onClickUserProfile}>X</button>
-              </label>
-            </div>
 
-            <label className="user-logout">
-              <button onClick={onLogout}>로그아웃</button>
-            </label>
-          </ProfileModal>
+              <label className="user-logout">
+                <button onClick={onLogout}>로그아웃</button>
+              </label>
+            </ProfileModal>
+          </Menu>
         )}
       </Header>
       <Content>
