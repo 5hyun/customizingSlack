@@ -14,6 +14,8 @@ const Menu: FC<Props> = ({ children, style, show, onCloseModal, closeButton }) =
     e.stopPropagation();
   }, []);
 
+  if (!show) return null;
+
   return (
     <div>
       <CreateModal onClick={onCloseModal}>
@@ -21,6 +23,10 @@ const Menu: FC<Props> = ({ children, style, show, onCloseModal, closeButton }) =
       </CreateModal>
     </div>
   );
+};
+
+Menu.defaultProps = {
+  closeButton: true,
 };
 
 export default Menu;

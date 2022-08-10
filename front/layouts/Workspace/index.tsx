@@ -3,22 +3,40 @@ import useSWR from 'swr';
 import fetcher from '@utils/fetcher';
 import { Redirect } from 'react-router';
 import gravatar from 'gravatar';
-import { ChannelSelctor, Content, Header, Message, ProfileModal, WorkspaceSelctor } from '@layouts/Workspace/styles';
+import {
+  ChannelLabel,
+  ChannelModal,
+  ChannelSelctor,
+  Content,
+  Header,
+  Message,
+  ProfileModal,
+  WorkspaceSelctor,
+} from '@layouts/Workspace/styles';
 import axios from 'axios';
 import Menu from '@components/Menu';
+import { IUser } from '@typings/db';
 
 const Workspace = () => {
-  const { data: userData, mutate } = useSWR('/api/users', fetcher);
+  const { data: userData, mutate } = useSWR<IUser | false>('/api/users', fetcher, {
+    dedupingInterval: 2000,
+  });
 
   const [showUserMenu, setShowUserMenu] = useState(false);
+  const [showChannelMenu, setShowChannelMenu] = useState(false);
 
   const onClickUserProfile = useCallback(() => {
     setShowUserMenu((prev) => !prev);
   }, []);
 
+  const onClickChannelMenu = useCallback(() => {
+    setShowChannelMenu((prev) => !prev);
+  }, []);
+
   const onCloseUserProfile = useCallback((e: any) => {
     e.stopPropagation();
     setShowUserMenu(false);
+    setShowChannelMenu(false);
   }, []);
 
   const onLogout = useCallback(() => {
@@ -65,9 +83,30 @@ const Workspace = () => {
         )}
       </Header>
       <Content>
-        <WorkspaceSelctor>.</WorkspaceSelctor>
-        <ChannelSelctor>.</ChannelSelctor>
-        <Message>.</Message>
+        <WorkspaceSelctor>워크스페이스</WorkspaceSelctor>
+        <ChannelSelctor>
+          <ChannelLabel onClick={onClickChannelMenu}>
+            <div>
+              <button>Oleact</button>
+            </div>
+          </ChannelLabel>
+          {showChannelMenu && (
+            <Menu show={showChannelMenu} onCloseModal={onCloseUserProfile}>
+              <ChannelModal>
+                <div className="top">
+                  <span className="sleact">Sleact</span>
+                  <span className="x-bar">X</span>
+                </div>
+                <div className="bottom">
+                  <div className="inviteWorkspace">워크스페이스에 사용자 초대</div>
+                  <div className="makeChannel">채널 만들기</div>
+                  <div className="logout">로그아웃</div>
+                </div>
+              </ChannelModal>
+            </Menu>
+          )}
+        </ChannelSelctor>
+        <Message>메세지</Message>
       </Content>
     </div>
   );

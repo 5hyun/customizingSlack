@@ -95,17 +95,70 @@ export const Content = styled.div`
 `;
 
 export const WorkspaceSelctor = styled.div`
-  background-color: #00bcd4;
-  opacity: 0.6;
+  background-color: #85D7E5;
   width: 60px;
 
   border-right: 0.6px solid white;
 `;
 
 export const ChannelSelctor = styled.div`
-  background-color: #00bcd4;
-  opacity: 0.6;
+  background-color: #85D7E5;
   width: 260px;
+`;
+
+export const ChannelLabel = styled.label`
+  & > div > button {
+    border: none;
+    padding-top: 15px;
+    padding-right: 100%;
+    padding-left: 15px;
+    padding-bottom: 12px;
+
+    color: white;
+    background-color: inherit;
+    font-size: 30px;
+    font-weight: 600;
+    
+    border-bottom: 1px solid white;
+
+  }
+`;
+
+export const ChannelModal = styled.div`
+  position: absolute;
+  top: 95px;
+  left: 75px;
+
+  width: 350px;
+  height: 130px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+
+  background-color: #f8f8f8;
+  
+  .top {
+    display: flex;
+    justify-content: space-between;
+    
+    padding: 15px 15px;
+    font-weight: 600;
+  }
+  
+  .bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  
+    & > div {
+      width: 100%;
+      border-top: 1px solid black;
+      text-align: center;
+      margin: 3px 0;
+      
+      font-size: 15px;
+    }
+  }
+
 `;
 
 export const Message = styled.div``;
