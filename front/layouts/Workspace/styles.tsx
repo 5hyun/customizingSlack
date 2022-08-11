@@ -95,14 +95,107 @@ export const Content = styled.div`
 `;
 
 export const WorkspaceSelctor = styled.div`
-  background-color: #85D7E5;
+  background-color: #85d7e5;
   width: 60px;
 
   border-right: 0.6px solid white;
 `;
 
+export const Workspaces = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+export const WorkspaceButton = styled.button`
+  width: 35px;
+  height: 35px;
+  border-radius: 5px;
+  border: none;
+  margin: 10px 0;
+
+  font-size: 22px;
+  font-weight: 600;
+
+  background-color: #ffffff;
+`;
+
+export const AddButton = styled.button`
+  background-color: inherit;
+  border: none;
+  color: black;
+  font-size: 25px;
+  font-weight: 600;
+
+  cursor: pointer;
+`;
+
+export const Modal = styled.button`
+  position: absolute;
+  width: 450px;
+  height: 290px;
+  top: 200px;
+  left: 325px;
+  background-color: #f8f8f8;
+
+  border: none;
+  border-radius: 10px;
+  box-shadow: 1px 1px 3px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .x-bar {
+    font-size: 25px;
+
+    border: none;
+    align-self: flex-end;
+    margin-right: 20px;
+    margin-top: 15px;
+    background-color: inherit;
+
+    cursor: pointer;
+  }
+  
+  .createBtn {
+    padding: 10px 162px ;
+    
+    font-size: 16px;
+    font-weight: 600;
+    color: white;
+    background-color: #6F84B7;
+    border: none;
+    border-radius: 5px;
+  }
+  
+`;
+
+export const Label = styled.label`
+  display: flex;
+  flex-direction: column;
+  
+  margin-bottom: 20px;
+
+  & > span {
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    align-self: flex-start;
+
+    margin-bottom: 10px;
+  }
+
+  & > input {
+    width: 370px;
+    height: 45px;
+    
+    font-size: 20px;
+  }
+`;
+
 export const ChannelSelctor = styled.div`
-  background-color: #85D7E5;
+  background-color: #85d7e5;
   width: 260px;
 `;
 
@@ -118,9 +211,10 @@ export const ChannelLabel = styled.label`
     background-color: inherit;
     font-size: 30px;
     font-weight: 600;
-    
+
     border-bottom: 1px solid white;
 
+    cursor: pointer;
   }
 `;
 
@@ -135,30 +229,36 @@ export const ChannelModal = styled.div`
   border-radius: 10px;
 
   background-color: #f8f8f8;
-  
+
   .top {
     display: flex;
     justify-content: space-between;
-    
+
     padding: 15px 15px;
     font-weight: 600;
   }
-  
+
+  .x-bar {
+    cursor: pointer;
+  }
+
   .bottom {
     display: flex;
     flex-direction: column;
     align-items: center;
-  
+
     & > div {
       width: 100%;
       border-top: 1px solid black;
       text-align: center;
       margin: 3px 0;
-      
+
       font-size: 15px;
+      opacity: 0.7;
+
+      cursor: pointer;
     }
   }
-
 `;
 
 export const Message = styled.div``;

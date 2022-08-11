@@ -4,18 +4,26 @@ import fetcher from '@utils/fetcher';
 import { Redirect } from 'react-router';
 import gravatar from 'gravatar';
 import {
+  AddButton,
   ChannelLabel,
   ChannelModal,
   ChannelSelctor,
   Content,
   Header,
   Message,
+  Modal,
   ProfileModal,
+  WorkspaceButton,
+  Workspaces,
   WorkspaceSelctor,
+  Label,
 } from '@layouts/Workspace/styles';
 import axios from 'axios';
 import Menu from '@components/Menu';
 import { IUser } from '@typings/db';
+import { Link } from 'react-router-dom';
+import useInput from '@hooks/useInput';
+import { toast } from 'react-toastify';
 
 const Workspace = () => {
   const { data: userData, mutate } = useSWR<IUser | false>('/api/users', fetcher, {
@@ -24,6 +32,10 @@ const Workspace = () => {
 
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showChannelMenu, setShowChannelMenu] = useState(false);
+  const [showCreateWorkspaceModal, setShowCreateWorkspaceModal] = useState(false);
+
+  const [newWorkspace, onChangeNewWorkspace, setNewWorkspace] = useInput('');
+  const [newUrl, onChangeNewUrl, setNewUrl] = useInput('');
 
   const onClickUserProfile = useCallback(() => {
     setShowUserMenu((prev) => !prev);
@@ -33,10 +45,15 @@ const Workspace = () => {
     setShowChannelMenu((prev) => !prev);
   }, []);
 
+  const onClickModal = useCallback(() => {
+    setShowCreateWorkspaceModal((prev) => !prev);
+  }, []);
+
   const onCloseUserProfile = useCallback((e: any) => {
     e.stopPropagation();
     setShowUserMenu(false);
     setShowChannelMenu(false);
+    setShowCreateWorkspaceModal(false);
   }, []);
 
   const onLogout = useCallback(() => {
@@ -48,6 +65,37 @@ const Workspace = () => {
         mutate(false, false);
       });
   }, []);
+
+  const onCreateWorkspace = useCallback(
+    (e: any) => {
+      e.preventDefault();
+      if (!newWorkspace || !newWorkspace.trim()) return;
+      if (!newUrl || !newUrl.trim()) return;
+
+      axios
+        .post(
+          'api/workspaces',
+          {
+            workspace: newWorkspace,
+            url: newUrl,
+          },
+          {
+            withCredentials: true,
+          },
+        )
+        .then(() => {
+          mutate(false, false);
+          setShowCreateWorkspaceModal(false);
+          setNewWorkspace('');
+          setNewWorkspace('');
+        })
+        .catch((error) => {
+          console.dir(error);
+          toast.error(error.response?.data, { position: 'bottom-center' });
+        });
+    },
+    [newWorkspace, newUrl],
+  );
 
   if (!userData) {
     return <Redirect to="login" />;
@@ -83,7 +131,40 @@ const Workspace = () => {
         )}
       </Header>
       <Content>
-        <WorkspaceSelctor>워크스페이스</WorkspaceSelctor>
+        <WorkspaceSelctor>
+          <Workspaces>
+            {userData?.Workspaces?.map((ws) => {
+              return (
+                <Link key={ws.id} to={`/workspace/${ws.url}/channel/일반`}>
+                  <WorkspaceButton>{ws.name.slice(0, 1).toUpperCase()}</WorkspaceButton>
+                </Link>
+              );
+            })}
+            <AddButton onClick={onClickModal}>+</AddButton>
+          </Workspaces>
+        </WorkspaceSelctor>
+        {showCreateWorkspaceModal && (
+          <Menu show={showCreateWorkspaceModal} onCloseModal={onCloseUserProfile}>
+            <Modal>
+              <button className="x-bar" onClick={onClickModal}>
+                X
+              </button>
+              <form onSubmit={onCreateWorkspace}>
+                <Label className="name">
+                  <span>워크스페이스 이름</span>
+                  <input type="text" value={newWorkspace} onChange={onChangeNewWorkspace} />
+                </Label>
+                <Label>
+                  <span>워크스페이스 url</span>
+                  <input type="text" value={newUrl} onChange={onChangeNewUrl} />
+                </Label>
+                <button className="createBtn" type="submit">
+                  생성하기
+                </button>
+              </form>
+            </Modal>
+          </Menu>
+        )}
         <ChannelSelctor>
           <ChannelLabel onClick={onClickChannelMenu}>
             <div>
@@ -95,12 +176,16 @@ const Workspace = () => {
               <ChannelModal>
                 <div className="top">
                   <span className="sleact">Sleact</span>
-                  <span className="x-bar">X</span>
+                  <span className="x-bar" onClick={onCloseUserProfile}>
+                    X
+                  </span>
                 </div>
                 <div className="bottom">
                   <div className="inviteWorkspace">워크스페이스에 사용자 초대</div>
                   <div className="makeChannel">채널 만들기</div>
-                  <div className="logout">로그아웃</div>
+                  <div className="logout" onClick={onLogout}>
+                    로그아웃
+                  </div>
                 </div>
               </ChannelModal>
             </Menu>
