@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import useSWR from 'swr';
 import fetcher from '@utils/fetcher';
 import { Redirect } from 'react-router';
@@ -20,15 +20,26 @@ import {
 } from '@layouts/Workspace/styles';
 import axios from 'axios';
 import Menu from '@components/Menu';
-import { IUser } from '@typings/db';
-import { Link } from 'react-router-dom';
+import { IChannel, IUser } from '@typings/db';
+import { Link, useParams } from 'react-router-dom';
 import useInput from '@hooks/useInput';
 import { toast } from 'react-toastify';
+import ChannelList from '@components/ChannelList';
+import DMList from "@components/DMList";
 
 const Workspace = () => {
+  const { workspace } = useParams<{ workspace?: string }>();
+
   const { data: userData, mutate } = useSWR<IUser | false>('/api/users', fetcher, {
     dedupingInterval: 2000,
   });
+  const { data: channelData } = useSWR<IChannel[]>(userData ? `/api/workspaces/${workspace}/channels` : null, fetcher);
+
+  useEffect(() => {
+    if (channelData) {
+      console.log(channelData);
+    }
+  }, []);
 
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showChannelMenu, setShowChannelMenu] = useState(false);
@@ -98,7 +109,7 @@ const Workspace = () => {
   );
 
   if (!userData) {
-    return <Redirect to="login" />;
+    return <Redirect to="/login" />;
   }
 
   return (
@@ -171,6 +182,10 @@ const Workspace = () => {
               <button>Oleact</button>
             </div>
           </ChannelLabel>
+
+          <ChannelList />
+          <DMList/>
+
           {showChannelMenu && (
             <Menu show={showChannelMenu} onCloseModal={onCloseUserProfile}>
               <ChannelModal>
