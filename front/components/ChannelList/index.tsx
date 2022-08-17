@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { FC, useCallback, useState } from 'react';
 import useSWR from 'swr';
 import { IChannel, IUser } from '@typings/db';
 import fetcher from '@utils/fetcher';
 import { useParams } from 'react-router-dom';
+import { Header, List } from '@components/DMList/styles';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCaretUp } from '@fortawesome/free-solid-svg-icons';
 
-const ChannelList = () => {
+const ChannelList: FC = () => {
   const { workspace } = useParams<{ workspace: string }>();
 
   const { data: userData } = useSWR<IUser | false>('/api/users', fetcher, {
@@ -17,13 +20,28 @@ const ChannelList = () => {
     fetcher,
   );
 
+  const [ChannelCollapse, setChannelCollapse] = useState(true);
+
+  const toggleChannelCollapse = useCallback(() => {
+    setChannelCollapse((prev) => !prev);
+  }, []);
+
   return (
-    <div>
-      <header>Channel</header>
-      {channelData?.map((channel) => {
-        return <div>#{channel.name}</div>;
-      })}
-    </div>
+    <>
+      <Header onClick={toggleChannelCollapse}>
+        <FontAwesomeIcon
+          icon={faCaretUp}
+          className={['collapseBtn', ChannelCollapse ? `collapseClick` : ``].join(' ')}
+        />
+        <span>Channel</span>
+      </Header>
+      <List>
+        {ChannelCollapse &&
+          channelData?.map((channel) => {
+            return <div>#{channel.name}</div>;
+          })}
+      </List>
+    </>
   );
 };
 

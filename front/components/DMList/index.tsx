@@ -4,8 +4,8 @@ import { IChannel, IUser, IUserWithOnline } from '@typings/db';
 import fetcher from '@utils/fetcher';
 import { useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCaretUp } from '@fortawesome/free-solid-svg-icons';
-import {Header} from "@components/DMList/styles";
+import { faCaretUp, faCircle } from '@fortawesome/free-solid-svg-icons';
+import { Header, List } from '@components/DMList/styles';
 
 const DMList: FC = () => {
   const { workspace } = useParams<{ workspace: string }>();
@@ -19,7 +19,7 @@ const DMList: FC = () => {
     fetcher,
   );
 
-  const [DMCollapse, setDMCollapse] = useState(false);
+  const [DMCollapse, setDMCollapse] = useState(true);
 
   const toggleDMCollapse = useCallback(() => {
     setDMCollapse((prev) => !prev);
@@ -27,14 +27,22 @@ const DMList: FC = () => {
 
   return (
     <>
-      <Header collapse={DMCollapse} onClick={toggleDMCollapse}>
-        <FontAwesomeIcon icon={faCaretUp} className="collapseBtn" />
-        Direct Message
+      <Header onClick={toggleDMCollapse}>
+        <FontAwesomeIcon
+          icon={faCaretUp}
+          className={['collapseBtn', DMCollapse ? `collapseClick` : ``].join(' ')}
+        />
+        <span>Direct Message</span>
       </Header>
-      {DMCollapse &&
-        memberData?.map((member) => {
-          return <div key={member.id}>{member.nickname}</div>;
-        })}
+      <List>
+        {DMCollapse &&
+          memberData?.map((member) => {
+            return (
+              // <FontAwesomeIcon icon={faCircle}/>
+              <div key={member.id}>{member.nickname}</div>
+            );
+          })}
+      </List>
     </>
   );
 };

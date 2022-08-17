@@ -1,21 +1,33 @@
 import styled from '@emotion/styled';
-import { keyframes } from '@emotion/react';
 
-const CollapseRotate = keyframes`
-  from {
+export const Header = styled.header`
+  display: flex;
+  align-items: center;
+
+  margin-left: 10px;
+  color: white;
+  cursor: pointer;
+
+  .collapseBtn {
+    font-size: 26px;
     transform: rotate(90deg);
+
+    margin-right: 5px;
   }
 
-  to {
+  .collapseClick {
     transform: rotate(180deg);
+  }
+  
+  & > span {
+    font-size: 22px;
   }
 `;
 
-export const Header = styled.header<{ collapse: boolean }>`
-  .collapseBtn {
-    font-size: 100px;
-    cursor: pointer;
-    transform: rotate(90deg);
+export const List = styled.div`
+  & > div {
+    color: white;
+    margin: 7px 0;
+    margin-left: 30px;
   }
-  
 `;
