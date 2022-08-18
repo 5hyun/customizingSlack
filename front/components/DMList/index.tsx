@@ -1,11 +1,12 @@
 import React, { FC, useCallback, useState } from 'react';
 import useSWR from 'swr';
-import { IChannel, IUser, IUserWithOnline } from '@typings/db';
+import { IUser, IUserWithOnline } from '@typings/db';
 import fetcher from '@utils/fetcher';
 import { useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCaretUp, faCircle } from '@fortawesome/free-solid-svg-icons';
-import { Header, List } from '@components/DMList/styles';
+import { faCaretUp } from '@fortawesome/free-solid-svg-icons';
+import { Header } from '@components/DMList/styles';
+import EachDM from '@components/EachDM';
 
 const DMList: FC = () => {
   const { workspace } = useParams<{ workspace: string }>();
@@ -28,21 +29,15 @@ const DMList: FC = () => {
   return (
     <>
       <Header onClick={toggleDMCollapse}>
-        <FontAwesomeIcon
-          icon={faCaretUp}
-          className={['collapseBtn', DMCollapse ? `collapseClick` : ``].join(' ')}
-        />
+        <FontAwesomeIcon icon={faCaretUp} className={['collapseBtn', DMCollapse ? `collapseClick` : ``].join(' ')} />
         <span>Direct Message</span>
       </Header>
-      <List>
+      <div>
         {DMCollapse &&
           memberData?.map((member) => {
-            return (
-              // <FontAwesomeIcon icon={faCircle}/>
-              <div key={member.id}>{member.nickname}</div>
-            );
+            return <EachDM key={member.id} member={member} />;
           })}
-      </List>
+      </div>
     </>
   );
 };

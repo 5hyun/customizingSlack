@@ -3,9 +3,10 @@ import useSWR from 'swr';
 import { IChannel, IUser } from '@typings/db';
 import fetcher from '@utils/fetcher';
 import { useParams } from 'react-router-dom';
-import { Header, List } from '@components/DMList/styles';
+import { Header} from '@components/DMList/styles';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretUp } from '@fortawesome/free-solid-svg-icons';
+import EachChannel from "@components/EachChannel";
 
 const ChannelList: FC = () => {
   const { workspace } = useParams<{ workspace: string }>();
@@ -35,12 +36,13 @@ const ChannelList: FC = () => {
         />
         <span>Channel</span>
       </Header>
-      <List>
+      <div>
         {ChannelCollapse &&
           channelData?.map((channel) => {
-            return <div>#{channel.name}</div>;
+              return <EachChannel key={channel.id} channel={channel} />
+            // return <div>#{channel.name}</div>;
           })}
-      </List>
+      </div>
     </>
   );
 };

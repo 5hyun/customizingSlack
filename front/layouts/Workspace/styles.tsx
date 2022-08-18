@@ -90,8 +90,8 @@ export const ProfileModal = styled.div`
 
 export const Content = styled.div`
   display: flex;
-  height: 100%;
   width: 100%;
+  height: 100vh;
 `;
 
 export const WorkspaceSelctor = styled.div`
@@ -157,24 +157,23 @@ export const Modal = styled.button`
 
     cursor: pointer;
   }
-  
+
   .createBtn {
-    padding: 10px 162px ;
-    
+    padding: 10px 162px;
+
     font-size: 16px;
     font-weight: 600;
     color: white;
-    background-color: #6F84B7;
+    background-color: #6f84b7;
     border: none;
     border-radius: 5px;
   }
-  
 `;
 
 export const Label = styled.label`
   display: flex;
   flex-direction: column;
-  
+
   margin-bottom: 20px;
 
   & > span {
@@ -189,7 +188,7 @@ export const Label = styled.label`
   & > input {
     width: 370px;
     height: 45px;
-    
+
     font-size: 20px;
   }
 `;
@@ -261,4 +260,5 @@ export const ChannelModal = styled.div`
   }
 `;
 
-export const Message = styled.div``;
+export const Message = styled.div`
+`;

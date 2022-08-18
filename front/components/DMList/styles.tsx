@@ -18,16 +18,8 @@ export const Header = styled.header`
   .collapseClick {
     transform: rotate(180deg);
   }
-  
+
   & > span {
     font-size: 22px;
-  }
-`;
-
-export const List = styled.div`
-  & > div {
-    color: white;
-    margin: 7px 0;
-    margin-left: 30px;
   }
 `;

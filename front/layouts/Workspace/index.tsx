@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import useSWR from 'swr';
 import fetcher from '@utils/fetcher';
-import { Redirect } from 'react-router';
+import { Redirect, Route, Switch } from 'react-router';
 import gravatar from 'gravatar';
 import {
   AddButton,
@@ -24,8 +24,12 @@ import { IChannel, IUser } from '@typings/db';
 import { Link, useParams } from 'react-router-dom';
 import useInput from '@hooks/useInput';
 import { toast } from 'react-toastify';
+import DMList from '@components/DMList';
+import loadable from '@loadable/component';
 import ChannelList from '@components/ChannelList';
-import DMList from "@components/DMList";
+
+const Channel = loadable(() => import('@pages/Channel'));
+const DirectMessage = loadable(() => import('@pages/DirectMessage'));
 
 const Workspace = () => {
   const { workspace } = useParams<{ workspace?: string }>();
@@ -184,7 +188,7 @@ const Workspace = () => {
           </ChannelLabel>
 
           <ChannelList />
-          <DMList/>
+          <DMList />
 
           {showChannelMenu && (
             <Menu show={showChannelMenu} onCloseModal={onCloseUserProfile}>
@@ -206,7 +210,12 @@ const Workspace = () => {
             </Menu>
           )}
         </ChannelSelctor>
-        <Message>메세지</Message>
+        <Message>
+          <Switch>
+            <Route path="/workspace/:workspace/channel/:channel" component={Channel} />
+            <Route path="/workspace/:workspace/dm/:id" component={DirectMessage} />
+          </Switch>
+        </Message>
       </Content>
     </div>
   );
