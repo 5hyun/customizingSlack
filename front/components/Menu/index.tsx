@@ -9,7 +9,7 @@ interface Props {
   children: any;
 }
 
-const Menu: FC<Props> = ({ children, style, show, onCloseModal, closeButton }) => {
+const Menu: FC<Props> = ({ children, show, onCloseModal, closeButton }) => {
   const stopPropagation = useCallback((e: any) => {
     e.stopPropagation();
   }, []);

@@ -27,7 +27,7 @@ const DMList: FC = () => {
   }, []);
 
   return (
-    <>
+    <div>
       <Header onClick={toggleDMCollapse}>
         <FontAwesomeIcon icon={faCaretUp} className={['collapseBtn', DMCollapse ? `collapseClick` : ``].join(' ')} />
         <span>Direct Message</span>
@@ -38,7 +38,7 @@ const DMList: FC = () => {
             return <EachDM key={member.id} member={member} />;
           })}
       </div>
-    </>
+    </div>
   );
 };
 

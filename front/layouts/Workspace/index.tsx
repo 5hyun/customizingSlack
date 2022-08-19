@@ -17,6 +17,7 @@ import {
   Workspaces,
   WorkspaceSelctor,
   Label,
+  List,
 } from '@layouts/Workspace/styles';
 import axios from 'axios';
 import Menu from '@components/Menu';
@@ -27,6 +28,8 @@ import { toast } from 'react-toastify';
 import DMList from '@components/DMList';
 import loadable from '@loadable/component';
 import ChannelList from '@components/ChannelList';
+import InviteChannelModal from '@components/InviteChannelModal';
+import CreateChannelModal from '@components/CreateChannelModal';
 
 const Channel = loadable(() => import('@pages/Channel'));
 const DirectMessage = loadable(() => import('@pages/DirectMessage'));
@@ -48,6 +51,8 @@ const Workspace = () => {
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showChannelMenu, setShowChannelMenu] = useState(false);
   const [showCreateWorkspaceModal, setShowCreateWorkspaceModal] = useState(false);
+  const [showCreateChannelModal, setShowCreateChannelModal] = useState(false);
+  const [showInviteChannelModal, setShowInviteChannelModal] = useState(false);
 
   const [newWorkspace, onChangeNewWorkspace, setNewWorkspace] = useInput('');
   const [newUrl, onChangeNewUrl, setNewUrl] = useInput('');
@@ -64,11 +69,27 @@ const Workspace = () => {
     setShowCreateWorkspaceModal((prev) => !prev);
   }, []);
 
+  const onClickCreateChannel = useCallback(() => {
+    setShowCreateChannelModal((prev) => !prev);
+  }, []);
+
+  const onClickInviteChannelModal = useCallback(() => {
+    setShowInviteChannelModal((prev) => !prev);
+  }, []);
+
   const onCloseUserProfile = useCallback((e: any) => {
     e.stopPropagation();
     setShowUserMenu(false);
     setShowChannelMenu(false);
     setShowCreateWorkspaceModal(false);
+  }, []);
+
+  const CloseInviteChannelModal = useCallback(() => {
+    setShowInviteChannelModal((prev) => !prev);
+  }, []);
+
+  const CloseCreateChannelModal = useCallback(() => {
+    setShowCreateChannelModal((prev) => !prev);
   }, []);
 
   const onLogout = useCallback(() => {
@@ -186,10 +207,6 @@ const Workspace = () => {
               <button>Oleact</button>
             </div>
           </ChannelLabel>
-
-          <ChannelList />
-          <DMList />
-
           {showChannelMenu && (
             <Menu show={showChannelMenu} onCloseModal={onCloseUserProfile}>
               <ChannelModal>
@@ -200,8 +217,12 @@ const Workspace = () => {
                   </span>
                 </div>
                 <div className="bottom">
-                  <div className="inviteWorkspace">워크스페이스에 사용자 초대</div>
-                  <div className="makeChannel">채널 만들기</div>
+                  <div className="inviteWorkspace" onClick={onClickInviteChannelModal}>
+                    워크스페이스에 사용자 초대
+                  </div>
+                  <div className="makeChannel" onClick={onClickCreateChannel}>
+                    채널 만들기
+                  </div>
                   <div className="logout" onClick={onLogout}>
                     로그아웃
                   </div>
@@ -209,6 +230,11 @@ const Workspace = () => {
               </ChannelModal>
             </Menu>
           )}
+
+          <List>
+            <ChannelList />
+            <DMList />
+          </List>
         </ChannelSelctor>
         <Message>
           <Switch>
@@ -217,6 +243,16 @@ const Workspace = () => {
           </Switch>
         </Message>
       </Content>
+      <InviteChannelModal
+        show={showInviteChannelModal}
+        onCloseModal={CloseInviteChannelModal}
+        setShowInviteChannelModal={setShowInviteChannelModal}
+      />
+      <CreateChannelModal
+        show={showCreateChannelModal}
+        onCloseModal={CloseCreateChannelModal}
+        setshowCreateChannelModal={setShowCreateChannelModal}
+      />
     </div>
   );
 };
