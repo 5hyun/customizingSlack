@@ -30,6 +30,7 @@ import loadable from '@loadable/component';
 import ChannelList from '@components/ChannelList';
 import InviteChannelModal from '@components/InviteChannelModal';
 import CreateChannelModal from '@components/CreateChannelModal';
+import useSocket from '@hooks/useSocket';
 
 const Channel = loadable(() => import('@pages/Channel'));
 const DirectMessage = loadable(() => import('@pages/DirectMessage'));
@@ -42,11 +43,20 @@ const Workspace = () => {
   });
   const { data: channelData } = useSWR<IChannel[]>(userData ? `/api/workspaces/${workspace}/channels` : null, fetcher);
 
+  const [socket, disconnect] = useSocket(workspace);
+
   useEffect(() => {
-    if (channelData) {
-      console.log(channelData);
+    if (channelData && userData && socket) {
+      console.log(socket);
+      socket.emit('login', { id: userData.id, channels: channelData.map((v) => v.id) });
     }
-  }, []);
+  }, [channelData, userData, socket]);
+
+  useEffect(() => {
+    return () => {
+      disconnect();
+    };
+  }, [workspace, disconnect]);
 
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showChannelMenu, setShowChannelMenu] = useState(false);

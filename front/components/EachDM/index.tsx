@@ -5,13 +5,14 @@ import fetcher from '@utils/fetcher';
 import { NavLink, useLocation, useParams } from 'react-router-dom';
 import { Div, List } from '@components/EachDM/styles';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faCircle} from "@fortawesome/free-regular-svg-icons";
+import { faCircle } from '@fortawesome/free-regular-svg-icons';
 
 interface Props {
   member: IUser;
+  isOnline: boolean;
 }
 
-const EachDM: VFC<Props> = ({ member }) => {
+const EachDM: VFC<Props> = ({ member, isOnline }) => {
   const { workspace } = useParams<{ workspace: string }>();
 
   const { data: userData } = useSWR('/api/users', fetcher, {
@@ -27,7 +28,7 @@ const EachDM: VFC<Props> = ({ member }) => {
         to={`/workspace/${workspace}/dm/${member.id}`}
       >
         <List>
-          <FontAwesomeIcon icon={faCircle} className="circle" />
+          <FontAwesomeIcon icon={faCircle} className={['circle', isOnline ? 'full-circle' : undefined].join(' ')} />
           {member.nickname}
           {member.id === userData.id && <span>(나)</span>}
         </List>

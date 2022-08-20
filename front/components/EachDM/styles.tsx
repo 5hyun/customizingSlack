@@ -21,4 +21,10 @@ export const List = styled.span`
     font-size: 12px;
     margin-right: 4px;
   }
+  
+  .full-circle {
+    color: #51FFA6;
+    background-color: #51FFA6;
+    border-radius: 50%;
+  }
 `;
