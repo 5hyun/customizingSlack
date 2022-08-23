@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 export const Header = styled.header`
   background-color: #00bcd4;
   opacity: 0.9;
-  height: 5%;
+  height: 36px;
   border-bottom: 0.6px solid white;
 
   display: flex;
@@ -91,8 +91,8 @@ export const ProfileModal = styled.div`
 export const Content = styled.div`
   display: flex;
   width: 100%;
-  height: 95%;
-  min-height: 95%;
+  max-height: 95vh;
+  min-height: 95vh;
 `;
 
 export const List = styled.div`
@@ -103,7 +103,8 @@ export const List = styled.div`
 export const WorkspaceSelctor = styled.div`
   background-color: #85d7e5;
   width: 60px;
-  height: 100%;
+  min-width: 60px;
+  min-height: 100%;
   overflow-y: auto;
 
   border-right: 0.6px solid white;
@@ -204,6 +205,7 @@ export const Label = styled.label`
 export const ChannelSelctor = styled.div`
   background-color: #85d7e5;
   width: 260px;
+  min-width: 260px;
 `;
 
 export const ChannelLabel = styled.label`
@@ -229,7 +231,7 @@ export const ChannelModal = styled.div`
   position: absolute;
   top: 97px;
   left: 70px;
-  
+
   z-index: 1;
 
   width: 350px;
@@ -270,4 +272,6 @@ export const ChannelModal = styled.div`
   }
 `;
 
-export const Message = styled.div``;
+export const Message = styled.div`
+  width: 100vw;
+`;
