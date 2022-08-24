@@ -14,6 +14,8 @@ import useSWRInfinite from 'swr/infinite';
 import Scrollbars from 'react-custom-scrollbars';
 import axios from 'axios';
 import useSocket from '@hooks/useSocket';
+import ChatList from '@components/ChatList/ChatList';
+import makeSection from '@utils/makeSection';
 
 const Channel = () => {
   const { workspace, channel } = useParams<{ workspace: string; channel: string }>();
@@ -38,6 +40,9 @@ const Channel = () => {
 
   const scrollbarRef = useRef<Scrollbars>(null);
   const [socket] = useSocket(workspace);
+
+  const isEmpty = chatData?.[0]?.length === 0;
+  const isRechingEnd = isEmpty || (chatData && chatData[chatData.length - 1]?.length < 20) || false;
 
   const onCloseMemberPlus = useCallback(() => {
     setMemberPlus((prev) => !prev);
@@ -78,6 +83,10 @@ const Channel = () => {
     [chat, chatData, userdata, channelData, workspace, channel],
   );
 
+  const chatSections = makeSection(chatData ? chatData.flat().reverse() : []);
+
+  if (!userdata) return null;
+
   return (
     <>
       <Header className="status-bar">
@@ -96,7 +105,7 @@ const Channel = () => {
           </Menu>
         )}
         <Chat>
-          <div>ss s s</div>
+          <ChatList chatSections={chatSections} ref={scrollbarRef} setSize={setSize} isReachingEnd={isRechingEnd} />
         </Chat>
         <ChatBox
           chat={chat}

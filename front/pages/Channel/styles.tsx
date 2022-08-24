@@ -77,43 +77,4 @@ export const Chat = styled.div`
   overflow-y: auto;
   min-height: 71vh;
   max-height: 71vh;
-
-  & > div {
-    height: 700vh;
-  }
 `;
-
-// export const Input = styled.div`
-//   border: 1px solid;
-//   border-radius: 5px;
-//
-//   width: 90%;
-//   margin: 0 auto;
-//
-//   & > div > textarea {
-//     padding: 10px 0;
-//
-//     width: 100%;
-//
-//     border: none;
-//     border-radius: 5px 5px 0 0;
-//   }
-//
-//   & > div > div {
-//     background-color: #f8f8f8;
-//     padding: 10px 0;
-//
-//     display: flex;
-//     justify-content: flex-end;
-//
-//     border-radius: 0 0 5px 5px;
-//
-//     border-top: 1px solid rgba(0, 0, 0, 0.1);
-//   }
-//
-//   .Btn {
-//     margin-right: 20px;
-//     color: rgba(0, 0, 0, 0.2);
-//     font-size: 18px;
-//   }
-// `;
